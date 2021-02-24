@@ -1,0 +1,13 @@
+curl --data "userid=prskid1000&item=a" http://localhost:3001/addcartitem
+curl --data "userid=prskid1000&item=b" http://localhost:3001/addcartitem
+curl --data "userid=prskid1000&item=c" http://localhost:3001/addcartitem
+curl --data "userid=prskid1000&item=c" http://localhost:3001/deletecartitem
+curl --data "userid=prskid1000" http://localhost:3001/createcart
+curl --data "userid=prskid1000" https://prskid1000.herokuapp.com/getcart
+
+curl --data "id=a&name=Apple&price=200&description=Fruit" http://localhost:3001/additem
+curl --data "id=b&name=Bottle&price=200&description=Container" http://localhost:3001/additem
+curl --data "id=c&name=Cap&price=150&description=Cloth" http://localhost:3001/additem
+
+curl --data "id=c" http://localhost:3001/removeitem
+curl http://localhost:3001/getitems
