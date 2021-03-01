@@ -65,7 +65,7 @@ const Cart = () => {
       item: state.cart[parseInt(event.target.id)]
     }
     
-    axios.post("https://prskid1000.herokuapp.com/deletecartitem", data, {
+    axios.post("https://wellcart.herokuapp.com//deletecartitem", data, {
       "Content-Type": "application/json"
     })
       .then(res => {

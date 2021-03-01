@@ -20,7 +20,7 @@ const Index = () => {
       userid: response.email
     }
 
-    axios.get("https://prskid1000.herokuapp.com/getitems", {
+    axios.get("https://wellcart.herokuapp.com//getitems", {
       "Content-Type": "application/json"
     })
       .then(res => {
@@ -32,13 +32,13 @@ const Index = () => {
           dispatch(actions.updateItems);
           dispatch(actions.updateName);
           dispatch(actions.updateEmail);
-          axios.post("https://prskid1000.herokuapp.com/getcart", data, {
+          axios.post("https://wellcart.herokuapp.com//getcart", data, {
             "Content-Type": "application/json"
           })
             .then(rpy => {
               
               if (rpy.data.success === "False") {
-                axios.post("https://prskid1000.herokuapp.com/createcart", data, {
+                axios.post("https://wellcart.herokuapp.com//createcart", data, {
                   "Content-Type": "application/json"
                 }).then(ans => {
                   //console.log(ans.data.data.cart);
@@ -68,7 +68,7 @@ const Index = () => {
 
     console.log(response.profileObj.email);
 
-    axios.get("https://prskid1000.herokuapp.com/getitems", {
+    axios.get("https://wellcart.herokuapp.com//getitems", {
       "Content-Type": "application/json"
     })
       .then(res => {
@@ -80,13 +80,13 @@ const Index = () => {
           dispatch(actions.updateItems);
           dispatch(actions.updateName);
           dispatch(actions.updateEmail);
-          axios.post("https://prskid1000.herokuapp.com/getcart", data, {
+          axios.post("https://wellcart.herokuapp.com//getcart", data, {
             "Content-Type": "application/json"
           })
           .then(rpy => {
             if(rpy.data.success === "False")
             {
-              axios.post("https://prskid1000.herokuapp.com/createcart", data, {
+              axios.post("https://wellcart.herokuapp.com//createcart", data, {
                 "Content-Type": "application/json"
               }).then(ans => {
                 //console.log(ans.data.data.cart);
