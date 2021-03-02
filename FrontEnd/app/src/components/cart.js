@@ -53,7 +53,7 @@ const Cart = () => {
   };
 
   const { signOut } = useGoogleLogout({
-    clientId: '276593425300-604na80o4eu6n69crv65vubq4a1b3f5t.apps.googleusercontent.com',
+    clientId: '276593425300-9gr4rrto1v5411tnnc4r128bf7c6u1sv.apps.googleusercontent.com',
     onLogoutSuccess,
     onFailure,
   });
@@ -65,7 +65,7 @@ const Cart = () => {
       item: state.cart[parseInt(event.target.id)]
     }
     
-    axios.post("https://wellcart.herokuapp.com//deletecartitem", data, {
+    axios.post("https://wellcart.herokuapp.com/deletecartitem", data, {
       "Content-Type": "application/json"
     })
       .then(res => {
@@ -99,7 +99,7 @@ const Cart = () => {
           <td>{set[i].name}</td>
           <td>{set[i].description}</td>
           <td>{'\u20B9'}{set[i].price}</td>
-          <td><i id={j++} className="material-icons icon-black" onClick={deleteCartItem}>delete</i></td>
+          <td><i id={j++} className="material-icons icon-black clickable" onClick={deleteCartItem}>delete</i></td>
         </tr>
       );
       total += parseInt(set[i].price);
@@ -109,17 +109,17 @@ const Cart = () => {
   return (
     <div>
       <nav className="grey darken-4">
-        <div className="nav-wrapper m-5 ">
-          <a href="#"><i class="material-icons brand-logo">store</i></a>
-          <a href="#" data-target="mobile-demo" className="sidenav-trigger"><i className="material-icons">menu</i></a>
-          <ul className="right hide-on-med-and-down">
+        <div className="nav-wrapper m-5">
+          <i className="material-icons brand-logo hide-on-small-only clickable">store</i>
+          <i className="material-icons brand-logo  left hide-on-med-and-up clickable">store</i>
+          <ul className="right">
             <li>Hi,{state.name}</li>
-            <li><a href="#"><i class="material-icons" onClick={viewShop}>shop</i></a></li>
-            <li><i class="material-icons" onClick={signOut}>logout</i></li>
+            <li><i className="material-icons clickable p-1" onClick={viewShop}>shop</i></li>
+            <li><i className="material-icons clickable p-1" onClick={signOut}>logout</i></li>
           </ul>
         </div>
       </nav>
-      <div className="container">
+      <div className="container hide-on-small-only">
         <div className="row m-5"></div>
         <div><h1>Cart</h1></div>
         <table className="highlight centered responsive-table">
@@ -147,8 +147,8 @@ const Cart = () => {
               <th></th>
               <th>
                 <center>
-                  <button class="btn waves-effect waves-light grey darken-4 white-text col-6" type="submit" name="action">Payment
-                    <i class="material-icons right">payment</i>
+                  <button className="btn waves-effect waves-light grey darken-4 white-text col-6" type="submit" name="action">Request Service
+                    <i className="material-icons right">payment</i>
                   </button>
                 </center>
               </th>
@@ -156,6 +156,35 @@ const Cart = () => {
           </tbody>
         </table>
       </div>
+      <div className="container hide-on-med-and-up">
+        <div className="row m-5"></div>
+        <div><h1>Cart</h1></div>
+        <table className="highlight centered responsive-table">
+          <thead className="grey darken-4 white-text">
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Option</th>
+            </tr>
+          </thead>
+          <tbody>
+            {createtable()}
+            {tdata}
+          </tbody>
+        </table>
+        <div className="col hide-on-med-and-up">
+          <div className="row-12">
+            <div className="grey darken-4 white-text p-1 h5">Total: {'\u20B9'}{total}</div>
+          </div>
+          <div className="row-12 mt-3">
+            <button className="btn waves-effect waves-light grey darken-4 white-text pb-1 right" type="submit" name="action">Request Service
+                    <i className="material-icons right">payment</i>
+            </button>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }

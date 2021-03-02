@@ -63,13 +63,13 @@ exports.removeItem = (req, res, next) => {
 };
 
 exports.addCartItem = (req, res, next) => {
+    console.log(req);
     var Model = require('../model/cart');
     Model.findOne({ userid: req.body.userid }, function (err, cart) {
         if (err || !cart) {
             res.json({ success: 'False', data: 'No Post Found' });
         } else {
             Model.deleteMany({ userid: req.body.userid }, function (err, docs) {
-                console.log(cart);
                 if (err || !docs) {
                     console.log("Error in Updating Cart");
                     res.json({ success: 'False', data: "Error in Updating Cart" });

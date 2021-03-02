@@ -4,8 +4,8 @@ import '../style/main.css';
 import actions from '../redux/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import { useGoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
+import { GoogleLogin } from 'react-google-login';
 import axios from "axios";
 
 const Index = () => {
@@ -14,13 +14,13 @@ const Index = () => {
   var state = useSelector(state => state);
   const history = useHistory();
 
-  const responseFacebook = (response) => {
+  const onFSuccess = (response) => {
 
     var data = {
       userid: response.email
     }
 
-    axios.get("https://wellcart.herokuapp.com//getitems", {
+    axios.get("https://wellcart.herokuapp.com/getitems", {
       "Content-Type": "application/json"
     })
       .then(res => {
@@ -28,39 +28,47 @@ const Index = () => {
           //console.log('Login Success: currentUser:', response.profileObj);
           actions.updateName.payload.name = response.name;
           actions.updateEmail.payload.email = response.email;
-          actions.updateItems.payload.items = res.data.data;
-          dispatch(actions.updateItems);
+          actions.setItem.payload.items = res.data.data;
+          dispatch(actions.setItem);
           dispatch(actions.updateName);
           dispatch(actions.updateEmail);
-          axios.post("https://wellcart.herokuapp.com//getcart", data, {
-            "Content-Type": "application/json"
-          })
-            .then(rpy => {
-              
-              if (rpy.data.success === "False") {
-                axios.post("https://wellcart.herokuapp.com//createcart", data, {
-                  "Content-Type": "application/json"
-                }).then(ans => {
-                  //console.log(ans.data.data.cart);
-                  actions.setCartItem.payload.items = ans.data.data.cart;
+
+          if(response.email != "prskid1000@gmail.com")
+          {
+            axios.post("https://wellcart.herokuapp.com/getcart", data, {
+              "Content-Type": "application/json"
+            })
+              .then(rpy => {
+
+                if (rpy.data.success === "False") {
+                  axios.post("https://wellcart.herokuapp.com/createcart", data, {
+                    "Content-Type": "application/json"
+                  }).then(ans => {
+                    //console.log(ans.data.data.cart);
+                    actions.setCartItem.payload.items = ans.data.data.cart;
+                    dispatch(actions.setCartItem);
+                    //console.log(state);
+                    history.push('/shopping');
+                  });
+                }
+                else {
+                  //console.log(rpy.data.data.cart);
+                  actions.setCartItem.payload.items = rpy.data.data.cart;
                   dispatch(actions.setCartItem);
                   //console.log(state);
                   history.push('/shopping');
-                });
-              }
-              else {
-                //console.log(rpy.data.data.cart);
-                actions.setCartItem.payload.items = rpy.data.data.cart;
-                dispatch(actions.setCartItem);
-                //console.log(state);
-                history.push('/shopping');
-              }
-            });
+                }
+              });
+          }
+          else
+          {
+            history.push('/admin');
+          }
         }
       });
   }
 
-  const onSuccess = (response) => {
+  const onGSuccess = (response) => {
 
     var data = {
       userid: response.profileObj.email
@@ -68,7 +76,7 @@ const Index = () => {
 
     console.log(response.profileObj.email);
 
-    axios.get("https://wellcart.herokuapp.com//getitems", {
+    axios.get("https://wellcart.herokuapp.com/getitems", {
       "Content-Type": "application/json"
     })
       .then(res => {
@@ -76,95 +84,134 @@ const Index = () => {
           //console.log('Login Success: currentUser:', response.profileObj);
           actions.updateName.payload.name = response.profileObj.name;
           actions.updateEmail.payload.email = response.profileObj.email;
-          actions.updateItems.payload.items = res.data.data;
-          dispatch(actions.updateItems);
+          actions.setItem.payload.items = res.data.data;
+          dispatch(actions.setItem);
           dispatch(actions.updateName);
           dispatch(actions.updateEmail);
-          axios.post("https://wellcart.herokuapp.com//getcart", data, {
-            "Content-Type": "application/json"
-          })
-          .then(rpy => {
-            if(rpy.data.success === "False")
-            {
-              axios.post("https://wellcart.herokuapp.com//createcart", data, {
-                "Content-Type": "application/json"
-              }).then(ans => {
-                //console.log(ans.data.data.cart);
-                actions.setCartItem.payload.items = ans.data.data.cart;
-                dispatch(actions.setCartItem);
-                //console.log(state);
-                history.push('/shopping');
+         
+          if (response.profileObj.email != "prskid1000@gmail.com") {
+            axios.post("https://wellcart.herokuapp.com/getcart", data, {
+              "Content-Type": "application/json"
+            })
+              .then(rpy => {
+
+                if (rpy.data.success === "False") {
+                  axios.post("https://wellcart.herokuapp.com/createcart", data, {
+                    "Content-Type": "application/json"
+                  }).then(ans => {
+                    //console.log(ans.data.data.cart);
+                    actions.setCartItem.payload.items = ans.data.data.cart;
+                    dispatch(actions.setCartItem);
+                    //console.log(state);
+                    history.push('/shopping');
+                  });
+                }
+                else {
+                  //console.log(rpy.data.data.cart);
+                  actions.setCartItem.payload.items = rpy.data.data.cart;
+                  dispatch(actions.setCartItem);
+                  //console.log(state);
+                  history.push('/shopping');
+                }
               });
-            }
-            else
-            {
-              //console.log(rpy.data.data.cart);
-              actions.setCartItem.payload.items = rpy.data.data.cart;
-              dispatch(actions.setCartItem);
-              //console.log(state);
-              history.push('/shopping');
-            }
-          });
+          }
+          else {
+            history.push('/admin');
+          }
         }
       });
   };
- 
-  const onFailure = (res) => {
-    console.log('Login failed: res:', res);
-    alert(
-      `Failed to login. 😢 Please ping this to repo owner twitter.com/sivanesh_fiz`
-    );
-  };
 
-  const { signIn } = useGoogleLogin({
-    onSuccess,
-    onFailure,
-    clientId: '276593425300-604na80o4eu6n69crv65vubq4a1b3f5t.apps.googleusercontent.com',
-    isSignedIn: true,
-    accessType: 'offline',
-    // responseType: 'code',
-    // prompt: 'consent',
-  });
+  var link_1 = (event) => {
+    window.location = 'https://ichatweb.netlify.app/'
+  }
+
+  var link_2 = (event) => {
+    window.location = 'https://codenut.netlify.app/'
+  }
+
 
   return (
     <div>
       <nav className="grey darken-4">
         <div className="nav-wrapper m-5 ">
-          <a href="#"><i class="material-icons">store</i></a>
-          <a href="#" data-target="mobile-demo" className="sidenav-trigger"><i className="material-icons">menu</i></a>
-          <ul className="right hide-on-med-and-down">
-          </ul>
+          <i className="material-icons clickable">store</i>
         </div>
       </nav>
-      <center>
-        <div className="row m-5"></div>
-        <div className="row m-5"></div>
-        <div className="row m-5"></div>
-        <div className="col-4 grey darken-4 m-5 pt-5 pb-3 pr-5">
-          <div className="row">
-            <i class="fa fa-google white-text large col-4" aria-hidden="true"></i>
-            <button onClick={signIn} className="grey darken-4 col-8">
-              <span className="flow-text white-text ontWeightBold"><h5>Sign in with Google</h5></span>
-            </button>
-          </div>
-        </div>
-      </center>
+      <div className="row mt-5">
 
-      <center>
-        <div className="col-4 grey darken-4 m-5 pt-5 pb-3 pr-5">
-          <div className="row">
-            <i class="material-icons white-text large col-4">facebook</i>
+        <div className="jumbotron col-sm-4 hide-on-med-and-up">
+          <h2><i className="material-icons large">store</i>WellCart</h2>
+          <div className="well mt-5">
+            <GoogleLogin
+              clientId="276593425300-9gr4rrto1v5411tnnc4r128bf7c6u1sv.apps.googleusercontent.com"
+              render={renderProps => (
+                <button className="btn waves-effect waves-light grey darken-4 white-text col-sm" onClick={renderProps.onClick} type="submit" name="action">
+                  GOOGLE LOGIN
+                </button>
+              )}
+              onSuccess={onGSuccess}
+              cookiePolicy={'single_host_origin'}
+            />
+          </div>
+          <div className="well mt-5">
             <FacebookLogin
-              appId="2459538504191620"
+              appId="257999539314518"
+              cssClass="btn waves-effect waves-light grey darken-4 white-text col-sm"
+              fields="name,email,picture"
+              textButton="FACEBOOK LOGIN"
               autoLoad={false}
-              fields="name,email"
-              callback={responseFacebook}
-              cssClass="grey darken-4 pt-3 ontWeightBold pb-3 col pr-5 ml-3 m-1 pl-5 mt-3 mb-1 flow-text white-text"
+              callback={onFSuccess}
+            />
+          </div>
+
+        </div>
+
+        <div className="jumbotron col-sm-8 hide-on-small-only ml-5 mt-5">
+          <h2><i className="material-icons large ml-5">store</i>WellCart</h2>
+          <div className="well col mt-5">
+            <GoogleLogin
+              clientId="276593425300-9gr4rrto1v5411tnnc4r128bf7c6u1sv.apps.googleusercontent.com"
+              render={renderProps => (
+                <button className="btn waves-effect waves-light grey darken-4 white-text col-sm" onClick={renderProps.onClick} type="submit" name="action">
+                  GOOGLE LOGIN
+                </button>
+              )}
+              onSuccess={onGSuccess}
+              cookiePolicy={'single_host_origin'}
+            />
+          </div>
+          <div className="well col mt-5">
+            <FacebookLogin
+              appId="257999539314518"
+              cssClass="btn waves-effect waves-light grey darken-4 white-text col-sm"
+              fields="name,email,picture"
+              textButton="FACEBOOK LOGIN"
+              autoLoad={false}
+              callback={onFSuccess}
             />
           </div>
         </div>
-      </center>
+      
+        <div className="col-sm-3 mt-5 hide-on-small-only">
+          <div className="card row p-3 mt-5 grey darken-4 white-text">
+            <center><h3 className="clickable" onClick={link_2}>Visit CodeNut</h3></center>
+          </div>
+          <div className="card row p-3  grey darken-4 white-text">
+            <center><h3 className="clickable" onClick={link_1}>Visit IChat</h3></center>
+          </div>
+        </div>
 
+        <div className="col-sm-3 mt-3 hide-on-med-and-up">
+          <div className="card row p-3 grey darken-4 white-text ">
+            <center><h4 className="clickable" onClick={link_2}>Visit CodeNut</h4></center>
+          </div>
+          <div className="card row p-3 grey darken-4 white-text">
+            <center><h4 className="clickable" onClick={link_1}>Visit IChat</h4></center>
+          </div>
+        </div>
+      
+      </div>
     </div>
   );
 }

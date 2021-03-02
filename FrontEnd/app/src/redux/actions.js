@@ -14,9 +14,24 @@ var actions = {
         }
     },
 
-    updateItems:{
-        type: 'updateItems',
+    setItem: {
+        type: 'setItem',
         payload: {
+            items: []
+        }
+    },
+
+    addItem: {
+        type: 'addItem',
+        payload: {
+            item: []
+        }
+    },
+
+    deleteItem: {
+        type: 'deleteItem',
+        payload: {
+            idx: 0,
             items: []
         }
     },

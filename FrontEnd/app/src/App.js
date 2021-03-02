@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import store from './redux/store'
 import Index from './components/index.js';
 import Cart from './components/cart.js';
+import Admin from './components/admin.js';
 import Shopping from './components/shopping.js';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Route exact path="/" component={Index} />
           <Route path="/index" component={Index} />
           <Route path="/cart" component={Cart} />
+          <Route path="/admin" component={Admin} />
           <Route path="/shopping" component={Shopping} />
         </Switch>
       </Provider>
