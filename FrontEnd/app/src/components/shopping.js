@@ -47,7 +47,7 @@ const Shopping = () => {
       item: event.target.id
     }
     
-    axios.post("http://localhost:3001/addcartitem", data, {
+    axios.post("https://wellcart.herokuapp.com/addcartitem", data, {
       "Content-Type": "application/json"
     });
     

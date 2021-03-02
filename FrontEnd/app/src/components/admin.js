@@ -64,7 +64,7 @@ const Admin = () => {
       id: state.items[parseInt(event.target.id)].id
     }
     
-    axios.post("http://localhost:3001/removeitem", data, {
+    axios.post("https://wellcart.herokuapp.com/removeitem", data, {
       "Content-Type": "application/json"
     })
       .then(res => {
@@ -87,7 +87,7 @@ const Admin = () => {
       description: description
     }
 
-    axios.post("http://localhost:3001/additem", data, {
+    axios.post("https://wellcart.herokuapp.com/additem", data, {
       "Content-Type": "application/json"
     })
       .then(res => {

@@ -21,7 +21,7 @@ const Cart = () => {
 
   var requestService = (event) => {
   
-    axios.post("http://localhost:3001/request", state, {
+    axios.post("https://wellcart.herokuapp.com/request", state, {
       "Content-Type": "application/json"
     })
       .then(res => {
@@ -59,7 +59,7 @@ const Cart = () => {
       item: state.cart[parseInt(event.target.id)]
     }
     
-    axios.post("http://localhost:3001/deletecartitem", data, {
+    axios.post("https://wellcart.herokuapp.com/deletecartitem", data, {
       "Content-Type": "application/json"
     })
       .then(res => {

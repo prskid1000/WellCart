@@ -20,7 +20,7 @@ const Index = () => {
       userid: response.email
     }
 
-    axios.get("http://localhost:3001/getitems", {
+    axios.get("https://wellcart.herokuapp.com/getitems", {
       "Content-Type": "application/json"
     })
       .then(res => {
@@ -35,13 +35,13 @@ const Index = () => {
 
           if(response.email != "prskid1000@gmail.com")
           {
-            axios.post("http://localhost:3001/getcart", data, {
+            axios.post("https://wellcart.herokuapp.com/getcart", data, {
               "Content-Type": "application/json"
             })
               .then(rpy => {
 
                 if (rpy.data.success === "False") {
-                  axios.post("http://localhost:3001/createcart", data, {
+                  axios.post("https://wellcart.herokuapp.com/createcart", data, {
                     "Content-Type": "application/json"
                   }).then(ans => {
                     //console.log(ans.data.data.cart);
@@ -76,7 +76,7 @@ const Index = () => {
 
     console.log(response.profileObj.email);
 
-    axios.get("http://localhost:3001/getitems", {
+    axios.get("https://wellcart.herokuapp.com/getitems", {
       "Content-Type": "application/json"
     })
       .then(res => {
@@ -90,13 +90,13 @@ const Index = () => {
           dispatch(actions.updateEmail);
          
           if (response.profileObj.email != "prskid1000@gmail.com") {
-            axios.post("http://localhost:3001/getcart", data, {
+            axios.post("https://wellcart.herokuapp.com/getcart", data, {
               "Content-Type": "application/json"
             })
               .then(rpy => {
 
                 if (rpy.data.success === "False") {
-                  axios.post("http://localhost:3001/createcart", data, {
+                  axios.post("https://wellcart.herokuapp.com/createcart", data, {
                     "Content-Type": "application/json"
                   }).then(ans => {
                     //console.log(ans.data.data.cart);
