@@ -142,7 +142,7 @@ const Cart = () => {
               <th></th>
               <th>
                 <center>
-                  <button className="btn waves-effect waves-light grey darken-4 white-text col-6" onClick={requestService}>Request Service
+                  <button className="btn waves-effect waves-light grey darken-4 white-text col-12" onClick={requestService}>Request Service
                     <i className="material-icons right">payment</i>
                   </button>
                 </center>
