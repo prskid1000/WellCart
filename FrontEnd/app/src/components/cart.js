@@ -19,27 +19,21 @@ const Cart = () => {
     history.push('/shopping');
   }
 
-  var handleChange = (event) => {
-
-    switch(event.target.id)
-    {
-      case 'name':
-        actions.updateName.payload.name = event.target.value;
-        dispatch(actions.updateName);
-        break;
-
-      case 'roll':
-        actions.updateRoll.payload.roll = event.target.value;
-        dispatch(actions.updateRoll);
-        break;
-
-      case 'id':
-        actions.updateId.payload.id = event.target.value;
-        dispatch(actions.updateId);
-    }
-    
+  var requestService = (event) => {
+  
+    axios.post("http://localhost:3001/request", state, {
+      "Content-Type": "application/json"
+    })
+      .then(res => {
+        if (res.data.success === "True") {
+          alert("Request Sent");
+        }
+        else
+        {
+          alert("Could not Send request");
+        }
+      });
   }
-
 
 
   const onLogoutSuccess = (res) => {
@@ -65,7 +59,7 @@ const Cart = () => {
       item: state.cart[parseInt(event.target.id)]
     }
     
-    axios.post("https://wellcart.herokuapp.com/deletecartitem", data, {
+    axios.post("http://localhost:3001/deletecartitem", data, {
       "Content-Type": "application/json"
     })
       .then(res => {
@@ -78,6 +72,7 @@ const Cart = () => {
           setrtotal(total);
         }
       });
+
     }
 
   var tdata = [];
@@ -147,7 +142,7 @@ const Cart = () => {
               <th></th>
               <th>
                 <center>
-                  <button className="btn waves-effect waves-light grey darken-4 white-text col-6" type="submit" name="action">Request Service
+                  <button className="btn waves-effect waves-light grey darken-4 white-text col-6" onClick={requestService}>Request Service
                     <i className="material-icons right">payment</i>
                   </button>
                 </center>
@@ -178,7 +173,7 @@ const Cart = () => {
             <div className="grey darken-4 white-text p-1 h5">Total: {'\u20B9'}{total}</div>
           </div>
           <div className="row-12 mt-3">
-            <button className="btn waves-effect waves-light grey darken-4 white-text pb-1 right" type="submit" name="action">Request Service
+            <button className="btn waves-effect waves-light grey darken-4 white-text pb-1 right" onClick={requestService}>Request Service
                     <i className="material-icons right">payment</i>
             </button>
           </div>

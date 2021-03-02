@@ -32,6 +32,7 @@ app.post('/addcartitem', control.addCartItem);
 app.post('/additem', control.addItem);
 app.post('/removeitem', control.removeItem);
 app.get('/getitems', control.getItems);
+app.post('/request', control.Request);
 
 app.listen(process.env.PORT || 3001,
     () => console.log("Server is running..."));

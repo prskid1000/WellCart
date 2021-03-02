@@ -37,6 +37,7 @@ const Admin = () => {
 
       case 'description':
         setDescription(event.target.value);
+        break;
 
       case 'price':
         setPrice(event.target.value);
@@ -63,7 +64,7 @@ const Admin = () => {
       id: state.items[parseInt(event.target.id)].id
     }
     
-    axios.post("https://wellcart.herokuapp.com/removeitem", data, {
+    axios.post("http://localhost:3001/removeitem", data, {
       "Content-Type": "application/json"
     })
       .then(res => {
@@ -86,7 +87,7 @@ const Admin = () => {
       description: description
     }
 
-    axios.post("https://wellcart.herokuapp.com/additem", data, {
+    axios.post("http://localhost:3001/additem", data, {
       "Content-Type": "application/json"
     })
       .then(res => {
@@ -115,7 +116,7 @@ const Admin = () => {
               </div>
               <div className="card-content">
                 <div className="card-title black-text text-right row">{'\u20B9'}{item.price}</div>
-                <span className="card-title black-text col row"><h4>{item.name}</h4></span>
+                <div className="card-title black-text col row"><h4>{item.name}</h4></div>
                 <p className="black-text col row">{item.description}</p>
                 <a className="btn-floating halfway-fab waves-effect waves-light grey darken-4 btn-large"><i id={j} class="material-icons" onClick={deleteItem}>delete</i></a>
               </div>
@@ -131,7 +132,7 @@ const Admin = () => {
               </div>
               <div className="card-content">
                 <div className="card-title black-text text-right row">{'\u20B9'}{item.price}</div>
-                <span className="card-title black-text col row"><h4>{item.name}</h4></span>
+                <div className="card-title black-text col row"><h4>{item.name}</h4></div>
                 <p className="black-text col row">{item.description}</p>
                 <a className="btn-floating halfway-fab waves-effect waves-light grey darken-4 btn-large"><i id={j++} class="material-icons" onClick={deleteItem}>delete</i></a>
               </div>

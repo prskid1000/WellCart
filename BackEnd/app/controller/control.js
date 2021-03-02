@@ -1,3 +1,13 @@
+var nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'wellcartstore@gmail.com',
+        pass: 'WellCart'
+    }
+});
+
 exports.getCart = (req, res, next) => {
     var Model = require('../model/cart');
     Model.findOne({ userid: req.body.userid }, function (err, docs) {
@@ -31,6 +41,42 @@ exports.createCart = (req, res, next) => {
             res.json({ success: 'False', data: err });
         });
 };
+
+exports.Request = (req, res, next) => {
+
+    console.log(req.body);
+
+    var mailOptions1 = {
+        from: 'prskid1000@gmail.com',
+        to: req.body.email,
+        subject: 'Request for Services',
+        text: JSON.stringify(req.body)
+    };
+
+    var mailOptions2 = {
+        from: 'prskid1000@gmail.com',
+        to: 'prskid1000@gmail.com',
+        subject: 'Request for Services',
+        text: JSON.stringify(req.body)
+    };
+  
+    transporter.sendMail(mailOptions1, function (error, info) {
+        if (error) {
+            res.json({ success: 'False', data: "Error-1 in sending email" });
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    }); 
+
+    transporter.sendMail(mailOptions2, function (error, info) {
+        if (error) {
+            res.json({ success: 'False', data: "Error-2 in sending email" });
+        } else {
+            console.log('Email sent: ' + info.response);
+            res.json({ success: 'True', data: "Email Sent" });
+        }
+    }); 
+}
 
 exports.addItem = (req, res, next) => {
     var Model = require('../model/item');
