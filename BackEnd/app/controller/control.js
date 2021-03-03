@@ -1,3 +1,13 @@
+var nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'wellcartstore@gmail.com',
+        pass: 'WellCart'
+    }
+});
+
 exports.getCart = (req, res, next) => {
     var Model = require('../model/cart');
     Model.findOne({ userid: req.body.userid }, function (err, docs) {
@@ -32,6 +42,72 @@ exports.createCart = (req, res, next) => {
         });
 };
 
+exports.Request = (req, res, next) => {
+
+    console.log(req.body);
+
+    let message = (
+        `<h4><b>These are the items requested:<b></h4>
+        <table>
+         <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+            </tr>
+         </thead >`
+    ); 
+
+    var total = 0;
+    var set = [];
+    for(var i of req.body.items) {
+        set[i['id']] = i;
+    }
+
+    for (var i of req.body.cart) {
+        message = message + 
+            '<tr>' + 
+                `<td>` + set[i].name + `</td>` + 
+                `<td>` + set[i].description + `</td>` + 
+                `<td>` + `'\u20B9'` + set[i].price + `</td>` + 
+            `</tr>`
+        total += parseInt(set[i].price);
+    }
+
+    message += `</table><b><p>Total amount to be paid is `  + `'\u20B9'`+ total + `</p><p>You will be contacted soon by me.</p><p>Prithwiraj Samanta</p></b>`;
+
+    var mailOptions1 = {
+        from: 'prskid1000@gmail.com',
+        to: req.body.email,
+        subject: 'Request for Services',
+        html: message
+    };
+
+    var mailOptions2 = {
+        from: 'prskid1000@gmail.com',
+        to: 'prskid1000@gmail.com',
+        subject: 'Request for Services',
+        html: message
+    };
+    
+  
+    transporter.sendMail(mailOptions1, function (error, info) {
+        if (error) {
+            res.json({ success: 'False', data: "Error-1 in sending email" });
+        } else {
+            console.log('Email sent: ' + info.response);
+            transporter.sendMail(mailOptions2, function (error, info) {
+                if (error) {
+                    res.json({ success: 'False', data: "Error-2 in sending email" });
+                } else {
+                    console.log('Email sent: ' + info.response);
+                    res.json({ success: 'True', data: "Email Sent" });
+                }
+            });
+        }
+    }); 
+}
+
 exports.addItem = (req, res, next) => {
     var Model = require('../model/item');
     var model = new Model({ 
@@ -63,13 +139,13 @@ exports.removeItem = (req, res, next) => {
 };
 
 exports.addCartItem = (req, res, next) => {
+    console.log(req);
     var Model = require('../model/cart');
     Model.findOne({ userid: req.body.userid }, function (err, cart) {
         if (err || !cart) {
             res.json({ success: 'False', data: 'No Post Found' });
         } else {
             Model.deleteMany({ userid: req.body.userid }, function (err, docs) {
-                console.log(cart);
                 if (err || !docs) {
                     console.log("Error in Updating Cart");
                     res.json({ success: 'False', data: "Error in Updating Cart" });

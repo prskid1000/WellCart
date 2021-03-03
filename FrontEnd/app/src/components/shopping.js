@@ -29,12 +29,13 @@ const Shopping = () => {
   };
 
   const { signOut } = useGoogleLogout({
-    clientId: '276593425300-604na80o4eu6n69crv65vubq4a1b3f5t.apps.googleusercontent.com',
+    clientId: '276593425300-9gr4rrto1v5411tnnc4r128bf7c6u1sv.apps.googleusercontent.com',
     onLogoutSuccess,
     onFailure,
   });
 
   var card = [];
+  var card2 = [];
 
   var addItem = (event) => {
 
@@ -46,7 +47,7 @@ const Shopping = () => {
       item: event.target.id
     }
     
-    axios.post("https://prskid1000.herokuapp.com/addcartitem", data, {
+    axios.post("https://wellcart.herokuapp.com/addcartitem", data, {
       "Content-Type": "application/json"
     });
     
@@ -56,19 +57,34 @@ const Shopping = () => {
   state.items.map((item, index) => {
     {
       card.push(
-        <div class="col-4 s12 m6">
-          <div class="card">
-            <div class="card-image">
-              <img src="bag.svg"></img>
+        <div className="col-6">
+          <div className="card">
+            <div className="card-image">
+              <img src="http://simpleicon.com/wp-content/uploads/Code-Optimization.svg" height="250" width="50"></img>
             </div>
-            <div class="card-content">
-              <div class="card-title black-text text-right row">{'\u20B9'}{item.price}</div>
-              <span class="card-title black-text col row"><h4>{item.name}</h4></span>
-              <p class="black-text col row">{item.description}</p>
-              <a class="btn-floating halfway-fab waves-effect waves-light grey darken-4"><i id={item.id} class="material-icons" onClick={addItem}>add</i></a>
+            <div className="card-content">
+              <div className="card-title black-text text-right row">{'\u20B9'}{item.price}</div>
+              <span className="card-title black-text col row"><h4>{item.name}</h4></span>
+              <p className="black-text col row">{item.description}</p>
+              <a className="btn-floating halfway-fab waves-effect waves-light grey darken-4 btn-large"><i id={item.id} class="material-icons" onClick={addItem}>add</i></a>
             </div>
           </div>
         </div>  
+      );
+      card2.push(
+        <div className="col-12 mb-3">
+          <div className="card">
+            <div className="card-image">
+              <img src="http://simpleicon.com/wp-content/uploads/Code-Optimization.svg" height="250" width="50"></img>
+            </div>
+            <div className="card-content">
+              <div className="card-title black-text text-right row">{'\u20B9'}{item.price}</div>
+              <span className="card-title black-text col row"><h4>{item.name}</h4></span>
+              <p className="black-text col row">{item.description}</p>
+              <a className="btn-floating halfway-fab waves-effect waves-light grey darken-4 btn-large"><i id={item.id} class="material-icons" onClick={addItem}>add</i></a>
+            </div>
+          </div>
+        </div>
       );
     }
   });
@@ -80,24 +96,29 @@ const Shopping = () => {
   return (
     <div>
       <nav className="grey darken-4">
-        <div className="nav-wrapper m-5 ">
-          <a href="#"><i class="material-icons brand-logo">store</i></a>
-          <a href="#" data-target="mobile-demo" className="sidenav-trigger"><i className="material-icons">menu</i></a>
-          <ul className="right hide-on-med-and-down">
+        <div className="nav-wrapper m-5">
+          <i className="material-icons brand-logo hide-on-small-only clickable">store</i>
+          <i className="material-icons brand-logo  left hide-on-med-and-up clickable">store</i>
+          <ul className="right">
             <li>Hi,{state.name}</li>
-            <li><a href="#"><i class="material-icons" onClick={viewCart}>shopping_cart</i></a></li>
-            <li><i class="material-icons" onClick={signOut}>logout</i></li>
+            <li><i className="material-icons clickable p-1" onClick={viewCart}>shopping_cart</i></li>
+            <li><i className="material-icons clickable p-1" onClick={signOut}>logout</i></li>
           </ul>
         </div>
       </nav>
 
-      <div class="container mt-3 alert grey darken-1 text-white alert-dismissible fade show" role="alert">
+      <div className="container mt-3 alert grey darken-1 text-white alert-dismissible fade show" role="alert">
         <strong onMouseEnter={alertBack}>{alert}</strong>
         
       </div>
       
-      <div class="row container mt-5">
-        {card}      
+      <div className="container">
+        <div className="row hide-on-small-only">
+          {card} 
+        </div>
+        <div className="row hide-on-med-and-up">
+          {card2}
+        </div>     
       </div>   
     </div>
   );

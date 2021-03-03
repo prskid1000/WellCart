@@ -22,9 +22,19 @@ var email = (state = [], action) => {
 
 var items = (state = [], action)  => {
     switch (action.type) {
-        case 'updateItems':
+        case 'setItem':
             state = action.payload.items;
             return state;
+
+        case 'addItem':
+            state = state.concat([action.payload.item]);
+            return state;
+
+        case 'deleteItem':
+            action.payload.items.splice(action.payload.idx, 1);
+            state = action.payload.items;
+            return state;
+
         default:
             return state
     }
