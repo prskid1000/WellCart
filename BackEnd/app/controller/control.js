@@ -106,7 +106,7 @@ exports.Request = (req, res, next) => {
 
         var mailOptions1 = {
             from: 'prskid1000@gmail.com',
-            to: req.body.email,
+            to: req.body.state.email,
             subject: 'Order Details',
             html: message
         };
@@ -116,16 +116,17 @@ exports.Request = (req, res, next) => {
             to: 'prskid1000@gmail.com',
             subject: 'Order Details',
             html: message
-        };
-
+        };  
 
         transporter.sendMail(mailOptions1, function (error, info) {
             if (error) {
+                console.log(error);
                 res.json({ success: 'False', data: "Error-1 in sending email" });
             } else {
                 console.log('Email sent: ' + info.response);
                 transporter.sendMail(mailOptions2, function (error, info) {
                     if (error) {
+                        console.log(error);
                         res.json({ success: 'False', data: "Error-2 in sending email" });
                     } else {
                         console.log('Email sent: ' + info.response);
