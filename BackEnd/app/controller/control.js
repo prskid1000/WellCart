@@ -136,6 +136,10 @@ exports.Request = (req, res, next) => {
             }
         });
     }
+    else
+    {
+        res.json({ success: 'False', data: "Payment authentication failed" });
+    }
 }
 
 exports.addItem = (req, res, next) => {
