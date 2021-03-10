@@ -11,3 +11,5 @@ curl --data "id=c&name=Cap&price=150&description=Cloth" https://wellcart.herokua
 
 curl --data "id=c" https://wellcart.herokuapp.com//removeitem
 curl https://wellcart.herokuapp.com//getitems
+
+curl --data "total=500" https://localhost:3001/orderid
