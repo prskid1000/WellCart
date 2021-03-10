@@ -19,14 +19,55 @@ const Cart = () => {
     history.push('/shopping');
   }
 
-  var requestService = (event) => {
-  
-    axios.post("https://wellcart.herokuapp.com/request", state, {
+  var requestService = async (event) => {
+
+    axios.post("https://wellcart.herokuapp.com/orderid", {total:total}, {
       "Content-Type": "application/json"
     })
-      .then(res => {
+      .then(res =>{
         if (res.data.success === "True") {
-          alert("Request Sent");
+      
+          var options = {
+            "key_id": 'rzp_test_bzgTd4jsuYIdov',
+            "amount": total,
+            "currency": "INR",
+            "name": state.name,
+            "order_id": res.data.data.id,
+            "handler": function (response) {
+              axios.post("https://wellcart.herokuapp.com/request", { 
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+                state: JSON.stringify(state)
+              }, {
+                "Content-Type": "application/json"
+              })
+              .then(ans=>{
+                if (res.data.success === "True") {
+                  alert("Payment Successful. Check your email");
+                }
+                else{
+                  alert("Payment not Successful");
+                }
+              })
+            },
+            "prefill": {
+              "name": "Prithwiraj Samanta",
+              "email": "prskid1000@gmail.com",
+              "contact": "6204570243"
+            },
+            "theme": {
+              "color": "#3399cc"
+            }
+          };
+
+          var rzp1 = new Razorpay(options);
+          rzp1.open();
+          rzp1.on('payment.failed', function (response) {
+            alert("Payment Failed! Try after sometime");
+          });
+
+          console.log(options);
         }
         else
         {
@@ -142,7 +183,7 @@ const Cart = () => {
               <th></th>
               <th>
                 <center>
-                  <button className="btn waves-effect waves-light grey darken-4 white-text col-12" onClick={requestService}>Request Service
+                  <button className="btn waves-effect waves-light grey darken-4 white-text col-12" onClick={requestService}>Pay
                     <i className="material-icons right">payment</i>
                   </button>
                 </center>
@@ -173,7 +214,7 @@ const Cart = () => {
             <div className="grey darken-4 white-text p-1 h5">Total: {'\u20B9'}{total}</div>
           </div>
           <div className="row-12 mt-3">
-            <button className="btn waves-effect waves-light grey darken-4 white-text pb-1 right" onClick={requestService}>Request Service
+            <button className="btn waves-effect waves-light grey darken-4 white-text pb-1 right" onClick={requestService}>Pay
                     <i className="material-icons right">payment</i>
             </button>
           </div>
