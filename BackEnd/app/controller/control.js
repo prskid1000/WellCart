@@ -102,7 +102,7 @@ exports.Request = (req, res, next) => {
             total += parseInt(set[i].price);
         }
 
-        message += `</table><b><p>Total amount paid is ` + `'\u20B9'` + total + `</p><p>You will be contacted soon by me.</p><p>Prithwiraj Samanta</p></b>`;
+        message += `</table><b><p>Total amount paid is ` + `'\u20B9'` + total + `</p><p>Thank You for supporting me.</p><p>Prithwiraj Samanta</p></b>`;
 
         var mailOptions1 = {
             from: 'prskid1000@gmail.com',
@@ -135,6 +135,10 @@ exports.Request = (req, res, next) => {
                 });
             }
         });
+    }
+    else
+    {
+        res.json({ success: 'False', data: "Payment authentication failed" });
     }
 }
 
