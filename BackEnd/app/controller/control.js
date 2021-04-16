@@ -7,12 +7,16 @@ var instance = new Razorpay({
     key_secret: process.env.key_secret,
 });
 
+let testAccount = await nodemailer.createTestAccount();
+
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: "smtp.ethereal.email",
+    port: 587,
+    secure: false, // true for 465, false for other ports
     auth: {
-        user: process.env.guser,
-        pass: process.env.gpass
-    }
+        user: testAccount.user, // generated ethereal user
+        pass: testAccount.pass, // generated ethereal password
+    },
 });
 
 exports.getCart = (req, res, next) => {
