@@ -7,16 +7,12 @@ var instance = new Razorpay({
     key_secret: process.env.key_secret,
 });
 
-let testAccount = await nodemailer.createTestAccount();
-
 const transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false, // true for 465, false for other ports
+    service: 'gmail',
     auth: {
-        user: testAccount.user, // generated ethereal user
-        pass: testAccount.pass, // generated ethereal password
-    },
+        user: process.env.guser,
+        pass: process.env.gpass
+    }
 });
 
 exports.getCart = (req, res, next) => {
@@ -77,7 +73,7 @@ exports.Request = (req, res, next) => {
     { 
         console.log("Success");
         req.body.state = JSON.parse(req.body.state);
-
+        
         let message = (
             `<h4><b>These are the items you ordered:<b></h4>
         <table>
