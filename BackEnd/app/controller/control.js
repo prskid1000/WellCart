@@ -73,7 +73,7 @@ exports.Request = (req, res, next) => {
     { 
         console.log("Success");
         req.body.state = JSON.parse(req.body.state);
-
+        
         let message = (
             `<h4><b>These are the items you ordered:<b></h4>
         <table>
