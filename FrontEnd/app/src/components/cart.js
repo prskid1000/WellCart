@@ -155,7 +155,7 @@ const Cart = () => {
           </ul>
         </div>
       </nav>
-      <div className="container hide-on-small-only">
+      <div className="hide-on-small-only">
         <div className="row m-5"></div>
         <div><h1>Cart</h1></div>
         <table className="highlight centered responsive-table">
@@ -192,7 +192,7 @@ const Cart = () => {
           </tbody>
         </table>
       </div>
-      <div className="container hide-on-med-and-up">
+      <div className="hide-on-med-and-up">
         <div className="row m-5"></div>
         <div><h1>Cart</h1></div>
         <table className="highlight centered responsive-table">

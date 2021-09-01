@@ -203,7 +203,7 @@ const Admin = () => {
           </div>
         </div>
       </div>
-      <div className="container">
+      <div>
         {createMap()}
         <div className="row hide-on-small-only">
           {card}

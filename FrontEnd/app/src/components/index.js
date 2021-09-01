@@ -195,19 +195,19 @@ const Index = () => {
       
         <div className="col-sm-3 mt-5 hide-on-small-only">
           <div className="card row p-3 mt-5 grey darken-4 white-text">
-            <center><h3 className="clickable" onClick={link_2}>Visit CodeNut</h3></center>
+            <center><h3 className="clickable" onClick={link_2}>CodeNut</h3></center>
           </div>
           <div className="card row p-3  grey darken-4 white-text">
-            <center><h3 className="clickable" onClick={link_1}>Visit IChat</h3></center>
+            <center><h3 className="clickable" onClick={link_1}>IChat</h3></center>
           </div>
         </div>
 
         <div className="col-sm-3 mt-3 hide-on-med-and-up">
           <div className="card row p-3 grey darken-4 white-text ">
-            <center><h4 className="clickable" onClick={link_2}>Visit CodeNut</h4></center>
+            <center><h4 className="clickable" onClick={link_2}>CodeNut</h4></center>
           </div>
           <div className="card row p-3 grey darken-4 white-text">
-            <center><h4 className="clickable" onClick={link_1}>Visit IChat</h4></center>
+            <center><h4 className="clickable" onClick={link_1}>IChat</h4></center>
           </div>
         </div>
       

@@ -107,12 +107,12 @@ const Shopping = () => {
         </div>
       </nav>
 
-      <div className="container mt-3 alert grey darken-1 text-white alert-dismissible fade show" role="alert">
+      <div className="mt-3 alert grey darken-1 text-white alert-dismissible fade show" role="alert">
         <strong onMouseEnter={alertBack}>{alert}</strong>
         
       </div>
       
-      <div className="container">
+      <div>
         <div className="row hide-on-small-only">
           {card} 
         </div>
